@@ -2,9 +2,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-import re
 
 
 def handle_missing_values(data):
