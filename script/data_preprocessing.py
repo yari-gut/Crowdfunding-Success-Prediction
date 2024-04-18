@@ -47,4 +47,4 @@ def split_data(data):
     pass
 
 if __name__ == '__main__':
-   
+    numerical_cols =['']
