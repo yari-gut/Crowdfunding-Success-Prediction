@@ -25,9 +25,31 @@ The `data_preprocessing.py` script performs preprocessing tasks on Kickstarter a
 
 The script ensures that both datasets are properly preprocessed and aligned before merging, facilitating further analysis and model training in subsequent stages of the project.
 
+## Model Tuning
+
+The `model_tuning.py` script tunes hyperparameters for various machine learning classifiers using Grid Search CV. It performs the following tasks:
+
+- **Split Data:** The script splits the input dataset into training and testing sets using an 80-20 ratio.
+
+- **Classifier Selection:** It defines a dictionary of classifiers, each paired with a parameter grid for hyperparameter tuning. The supported classifiers include:
+  - K-Nearest Neighbors (KNN)
+  - Decision Tree
+  - Logistic Regression
+  - Naive Bayes
+
+- **Hyperparameter Tuning:** For each classifier, the script utilizes Grid Search CV to find the optimal combination of hyperparameters. It searches through the specified parameter grid and evaluates each combination using cross-validation.
+
+- **Best Parameters:** After hyperparameter tuning, the script identifies the best parameters for each classifier based on the highest cross-validation accuracy.
+
+- **Model Training:** Using the best parameters, the script trains each classifier on the training set. It fits the classifier to the training data, effectively learning from the features and labels.
+
+- **Model Evaluation:** Once trained, each classifier is evaluated on the testing set to assess its performance. The script computes the accuracy of each classifier, indicating the proportion of correctly classified instances.
+
+- **Results Storage:** The script organizes the results, including the best parameters and accuracy for each classifier, into a JSON object.
+
+The `model_tuning.py` script enables efficient optimization of machine learning classifiers by systematically searching for the best hyperparameters. It facilitates the selection of optimal models for predicting crowdfunding campaign success, enhancing the overall effectiveness of the project's predictive analytics.
+
+
 # Model Evaluation
-
-
-# Model Training
 
 
