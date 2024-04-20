@@ -118,8 +118,8 @@ def merge_datasets(kickstarter, indiegogo):
 
 if __name__ == '__main__':
     # Load the two datasets
-    kickstarter_data = pd.read_csv("kickstarter_projects.csv")
-    indiegogo_data = pd.read_csv("indiegogo.csv")
+    kickstarter_data = pd.read_csv("../data/kickstarter_projects.csv")
+    indiegogo_data = pd.read_csv("../data/indiegogo.csv")
 
     # Preprocess Kickstarter data
     kickstarter_data = preprocess_kickstarter_data(kickstarter_data)
@@ -131,4 +131,4 @@ if __name__ == '__main__':
     merged_data = merge_datasets(kickstarter_data, indiegogo_data)
 
     # Save the merged dataset to a CSV file
-    merged_data.to_csv('merged_dataset.csv', index=False)
+    merged_data.to_csv('../data/merged_dataset.csv', index=False)
