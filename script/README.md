@@ -4,7 +4,7 @@
 - Secondly, we would need to clean up inconsistencies in the dataset—formatting, data types, etc.
 - Thirdly, we would need to normalize numerical features such as funding goal, pledged amount, and number of backers.
 - This normalization will ensure each feature is on a similar scale for analysis.
-- Lastly, to aggregate Pederson’s dataset with McTeer’s, we would likewise need to normalize feature names and remove duplicate entries.
+- Lastly, to aggregate Pederson’s dataset with McTeer’s, we would likewise need to standardrize feature names and remove duplicate entries.
 
 # Model Evaluation
 
