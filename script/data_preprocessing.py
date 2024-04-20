@@ -46,9 +46,15 @@ def preprocess_indiegogo_data(indiegogo_data):
     # Drop unnecessary columns
     indiegogo_data.drop(['currency', 'year_end', 'month_end', 'day_end', 'time_end', 'project_id', 'tagline', 'url', 'date_launch', 'date_end'], axis=1, inplace=True)
     
-    # Convert 'year_launch', 'month_launch', 'day_launch', 'time_launch' columns to datetime
+    # Convert 'year_launch', 'month_launch', 'day_launch', 'time_launch' columns to string
+    indiegogo_data['year_launch'] = indiegogo_data['year_launch'].astype(str)
+    indiegogo_data['month_launch'] = indiegogo_data['month_launch'].astype(str)
+    indiegogo_data['day_launch'] = indiegogo_data['day_launch'].astype(str)
+    indiegogo_data['time_launch'] = indiegogo_data['time_launch'].astype(str)
+
+    # Concatenate and convert to datetime
     indiegogo_data['year_launch'] = pd.to_datetime(indiegogo_data['year_launch'] + '-' + indiegogo_data['month_launch'] + '-' + indiegogo_data['day_launch'] + ' ' + indiegogo_data['time_launch'])
-    
+
     # Drop 'month_launch', 'day_launch', 'time_launch' columns after converting to datetime
     indiegogo_data.drop(['month_launch', 'day_launch', 'time_launch'], axis=1, inplace=True)
     
