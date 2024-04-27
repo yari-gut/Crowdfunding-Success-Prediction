@@ -1,34 +1,24 @@
+import numpy as np
 import pandas as pd
 import json
-from sklearn.calibration import LabelEncoder
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import RandomizedSearchCV
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.feature_extraction.text import TfidfVectorizer
+from selection import split_data
 
+# Store each classifier and its parameter grid.
+classifiers = {
+    "KNN": (KNeighborsClassifier(), {"n_neighbors": [5, 10], "weights": ["uniform", "distance"]}),
+    "Decision Tree": (DecisionTreeClassifier(), {"max_depth": [5, 10], "min_samples_split": [2, 5]}),
+    "Logistic Regression": (LogisticRegression(tol=1e-3, max_iter=1000), {"solver": ["sag", "saga"], "C": [1.0, 10.0]}),
+    "Neural Network": (MLPClassifier(max_iter=200, random_state=42, tol=0.001), {'hidden_layer_sizes': [(10,), (50,)], 'activation': ['tanh', 'relu'],})
+}
 
-def split_data(df):
+def find_best_hyperparameters(classifier, param_grid, x_train, y_train, cv=3):
     """
-    Split a pandas DataFrame into training and testing sets (80-20 split)
-    and save them as CSV files.
-    
-    Parameters:
-    - df: pandas DataFrame, the DataFrame to split
-
-    Returns:
-    - train_df: pandas DataFrame, the training set
-    - test_df: pandas DataFrame, the testing set
-    """
-    # Conduct an 80-20 train-test split
-    train_df, test_df = train_test_split(df, test_size=0.2)
-    return train_df, test_df
-
-def find_best_hyperparameters(classifier, param_grid, x_train, y_train, cv=5):
-    """
-    Find the optimal parameters for a given classifier using Grid Search CV.
+    Find the optimal parameters for a given classifier using RandomizedSearchCV.
 
     Parameters:
     - classifier: sklearn classifier object, the classifier to tune
@@ -38,43 +28,40 @@ def find_best_hyperparameters(classifier, param_grid, x_train, y_train, cv=5):
     - cv: int, optional, the number of folds for cross-validation (default: 5)
 
     Returns:
-    - best_params: dict, the optimal parameters found by Grid Search CV
+    - best_params: dict, the optimal parameters found by RandomizedSearchCV
     """
-    grid_search = GridSearchCV(estimator=classifier, param_grid=param_grid, cv=cv)
-    grid_search.fit(x_train, y_train)
-    
-    best_params = grid_search.best_params_
-    
+    rand_search = RandomizedSearchCV(estimator=classifier, param_distributions=param_grid, scoring='roc_auc', cv=cv, n_jobs=-1, n_iter=4)
+    rand_search.fit(x_train, y_train)
+    best_params = rand_search.best_params_
     return best_params
 
-# Store each classifier and its parameter grid.
-classifiers = {
-    'KNN': (KNeighborsClassifier(), {'n_neighbors': [3, 5, 7], 'weights': ['uniform', 'distance']}),
-    'Decision Tree': (DecisionTreeClassifier(), {'max_depth': [None, 5, 10], 'min_samples_split': [2, 5, 10]}),
-    'Logistic Regression': (LogisticRegression(), {'C': [0.1, 1.0, 10.0], 'solver': ['sag', 'saga'],}),
-    'Naive Bayes': (MultinomialNB(), {'alpha': [0.1, 0.5, 1.0, 2.0]})
-}
-
-def tune_hyperparameters(df):
+def tune_hyperparameters(dataset, train_df, test_df):
     """
-    Tune each classifier in classifiers, finding the best hyperparameters for using Grid Search CV,
+    Tune each classifier in classifiers, finding the best hyperparameters for using RandomizedSearchCV,
     and organize the results into a JSON object.
 
     Parameters:
-    - df: pandas DataFrame, the DataFrame used to tune the hyperparameters
+    - dataset: str, either "kickstarter" or "indiegogo"
+    - train_df: pandas DataFrame, the feature selected training dataset used to tune the hyperparameters
+    - test_df: pandas DataFrame, the feature selected testing dataset used to assess the tuned models
 
     Returns:
     - results: dict, a JSON object containing the best parameters and performance for each classifier
     """
     results = {}
     for name, (classifier, param_grid) in classifiers.items():
-        print(name)
+        print(f'{name}, {dataset}')
         # Split the data
-        train_df, test_df = split_data(df)
-        x_train = train_df.drop(columns=['State']) 
-        y_train = train_df['State']
-        x_test = test_df.drop(columns=['State'])
-        y_test = test_df['State']
+        if dataset == "kickstarter":
+            x_train = train_df.drop(columns=["State"]) 
+            y_train = train_df["State"]
+            x_test = test_df.drop(columns=["State"])
+            y_test = test_df["State"]
+        else:
+            x_train = train_df.drop(columns=["state"]) 
+            y_train = train_df["state"]
+            x_test = test_df.drop(columns=["state"])
+            y_test = test_df["state"]
 
         # Find the best hyperparameters
         best_params = find_best_hyperparameters(classifier, param_grid, x_train, y_train)
@@ -88,25 +75,21 @@ def tune_hyperparameters(df):
 
         # Store results
         results[name] = {
-            'best_parameters': best_params,
-            'accuracy': accuracy
+            "best_parameters": best_params,
+            "accuracy": accuracy
         }
 
     # Convert dictionary to JSON and save to file
-    with open('best_parameters.json', 'w') as json_file:
+    with open(f'{dataset}_best_parameters.json', "w") as json_file:
         json.dump(results, json_file)
 
-
 if __name__ == "__main__":
-    # Load the kickstarter dataset
-    kickstarter_data = pd.read_csv("../data/kickstarter_projects.csv")
+    # Tune parameters using the kickstarter dataset
+    kickstarter_train = pd.read_csv("../data/selected/kickstarter_train_selected.csv")
+    kickstarter_test = pd.read_csv("../data/selected/kickstarter_test_selected.csv")
+    tune_hyperparameters("kickstarter", kickstarter_train, kickstarter_test)
 
-    # Preprocess data (temp)
-    text_columns= ['ID', 'Name', 'Category', 'Subcategory', 'Country', 'Launched', 'Deadline']
-    kickstarter_data = kickstarter_data.drop(text_columns, axis=1)
-    encoder = LabelEncoder()
-    kickstarter_data['State'] = encoder.fit_transform(kickstarter_data['State'])
-    scaler = MinMaxScaler()
-    kickstarter_data[['Goal', 'Pledged', 'Backers']] = scaler.fit_transform(kickstarter_data[['Goal', 'Pledged', 'Backers']])
-
-    tune_hyperparameters(kickstarter_data)
+    # Tune parameters using the indiegogo dataset
+    indiegogo_train = pd.read_csv("../data/selected/indiegogo_train_selected.csv")
+    indiegogo_test = pd.read_csv("../data/selected/indiegogo_test_selected.csv")
+    tune_hyperparameters("indiegogo", indiegogo_train, indiegogo_test)
