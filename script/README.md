@@ -25,6 +25,20 @@ The `data_preprocessing.py` script performs preprocessing tasks on Kickstarter a
 
 The script ensures that both datasets are properly preprocessed and aligned before merging, facilitating further analysis and model training in subsequent stages of the project.
 
+## Feature Selection and Data Splitting
+
+The `selection.py` script handles feature selection and data splitting tasks. It includes the following functions:
+
+- **split_data:** This function splits a pandas DataFrame into training and testing sets using an 80-20 split ratio.
+
+- **cal_corr:** This function computes the Pearson correlation matrix for the dataset.
+
+- **select_features:** Preprocesses the features by removing highly correlated features and features with low correlation to the target variable.
+
+- **heatmap:** This function plots the correlation matrix as a heatmap using seaborn library.
+
+The script also includes a main block that demonstrates the usage of these functions on both the Kickstarter and Indiegogo datasets. It loads the preprocessed datasets, splits them into training and testing sets, performs feature selection, visualizes the correlation matrix, and saves the feature-selected datasets to CSV files.
+
 ## Model Tuning
 
 The `model_tuning.py` script tunes hyperparameters for various machine learning classifiers using Grid Search CV. It performs the following tasks:
@@ -49,7 +63,4 @@ The `model_tuning.py` script tunes hyperparameters for various machine learning 
 
 The `model_tuning.py` script enables efficient optimization of machine learning classifiers by systematically searching for the best hyperparameters. It facilitates the selection of optimal models for predicting crowdfunding campaign success, enhancing the overall effectiveness of the project's predictive analytics.
 
-
 # Model Evaluation
-
-
