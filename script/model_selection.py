@@ -48,9 +48,15 @@ def select_features(trainDF, testDF, dataset):
     """
     corr_matrix = cal_corr(trainDF)
 
-    # Set thresholds
-    delta = 0.8 
-    gamma = 0.1
+    # Set delta and gamma thresholds based on the dataset
+    if dataset == "kickstarter":
+        delta = 0.8
+        gamma = 0.1
+    elif dataset == "indiegogo":
+        delta = 0.85  
+        gamma = 0.15  
+    else:
+        raise ValueError("Invalid dataset name. Please specify either 'kickstarter' or 'indiegogo'.")
 
     # Find features highly correlated with each other
     correlated_features = set()
