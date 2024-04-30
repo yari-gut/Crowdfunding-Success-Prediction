@@ -1,1 +1,11 @@
-{"Random Forest": {"best_parameters": {"n_estimators": 100, "min_samples_split": 2, "max_depth": 10}, "accuracy": 0.9512609117361784}, "KNN": {"best_parameters": {"weights": "distance", "n_neighbors": 10}, "accuracy": 0.9442289039767217}, "Decision Tree": {"best_parameters": {"min_samples_split": 2, "max_depth": 5}, "accuracy": 0.9527158098933075}, "Logistic Regression": {"best_parameters": {"solver": "sag", "C": 10.0}, "accuracy": 0.933074684772066}, "Neural Network": {"best_parameters": {"hidden_layer_sizes": [10], "activation": "relu"}, "accuracy": 0.9161008729388943}}
+{
+  "Random Forest": {
+    "n_estimators": 200,
+    "min_samples_split": 2,
+    "max_depth": 10
+  },
+  "KNN": { "weights": "distance", "n_neighbors": 10 },
+  "Decision Tree": { "min_samples_split": 2, "max_depth": 5 },
+  "Logistic Regression": { "solver": "sag", "C": 10.0 },
+  "Neural Network": { "hidden_layer_sizes": [10], "activation": "relu" }
+}

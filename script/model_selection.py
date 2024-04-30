@@ -15,7 +15,6 @@ def split_data(df):
     - train_df: pandas DataFrame, the training set
     - test_df: pandas DataFrame, the testing set
     """
-    # Conduct an 80-20 train-test split
     train_df, test_df = train_test_split(df, test_size=0.2)
     return train_df, test_df
 
@@ -29,20 +28,19 @@ def cal_corr(df):
     Returns
     - corrDF: pandas.DataFrame, the correlation between the different columns
     """
-    # Get the Pearson correlation matrix
     corrDF = df.corr(method="pearson")
-
     return corrDF
 
 def select_features(trainDF, testDF, dataset):
     """
-    Preprocess the features
+    Perform feature selection on the dataset specified.
     
-    Parameters
+    Parameters:
     - trainDF: pandas.DataFrame, the training dataframe
     - testDF: pandas.DataFrame, the test dataframe
+    - dataset: str, either "kickstarter" or "indiegogo"
 
-    Returns
+    Returns:
     - trainDF: pandas.DataFrame, return the feature-selected trainDF dataframe
     - testDF: pandas.DataFrame, return the feature-selected testDT dataframe
     """
@@ -91,6 +89,14 @@ def select_features(trainDF, testDF, dataset):
 
 
 def heatmap(train_df):
+    """
+    Plot a heatmap for the Pearson correlation matrix.
+    
+    Parameters:
+    - train_df: pandas.DataFrame, the training dataframe
+
+    Returns: None
+    """
     # Calculate correlation matrices using cal_corr function
     corr_matrix_binary = cal_corr(train_df)
 
