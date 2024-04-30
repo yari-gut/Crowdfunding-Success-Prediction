@@ -55,14 +55,16 @@ The `model_tuning.py` script tunes hyperparameters for various machine learning 
 
 - **Results Storage:** The script organizes the results, including the best parameters and accuracy for each classifier, into a JSON object.
 
-The `model_tuning.py` script enables efficient optimization of machine learning classifiers by systematically searching for the best hyperparameters. It facilitates the selection of optimal models for predicting crowdfunding campaign success, enhancing the overall effectiveness of the project's predictive analytics.
+The script enables efficient optimization of machine learning classifiers by systematically searching for the best hyperparameters. It facilitates the selection of optimal models for predicting crowdfunding campaign success, enhancing the overall effectiveness of the project's predictive analytics.
 
 # Model Evaluation
 
-The model_evaluation.py script evaluates tuned machine learning models on the Kickstarter and Indiegogo crowdfunding datasets. It includes the following functions:
+The `model_evaluation.py` script evaluates tuned machine learning models on the Kickstarter and Indiegogo crowdfunding datasets. It includes the following functions:
 
 - **evaluate_model:** This function trains and evaluates a tuned classifier on the test set.
 
 - **eval_models:** This function iterates through each tuned model, evaluates it, and organizes all results into pandas DataFrames.
 
 - **plot_roc:** This function plots the ROC curve for each model.
+
+The script includes a main block that demonstrates the usage of its functions on both the Kickstarter and Indiegogo datasets. Each tuned model is evaluated separately for each dataset (using the hyperparameters tuned specifically for that dataset).
