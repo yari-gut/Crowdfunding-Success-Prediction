@@ -90,7 +90,7 @@ def eval_models(dataset):
         elif model == "Logistic Regression":
             clf = LogisticRegression(**params[model], tol=1e-3, max_iter=1000)
         elif model == "Neural Network":
-            clf = MLPClassifier(**params[model], max_iter=200, random_state=42, tol=0.001)
+            clf = MLPClassifier(**params[model], max_iter=300, random_state=42, tol=0.001)
         else:
             raise KeyError(f"Invalid key. The model '{model}' has not been tuned.")
         result_dict, roc_dict = evaluate_model(clf, model, x_train, y_train, x_test, y_test)

@@ -6,7 +6,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from model_selection import split_data
 
 # Store each classifier and its parameter grid.
 classifiers = {    
@@ -14,7 +13,7 @@ classifiers = {
     "KNN": (KNeighborsClassifier(), {"n_neighbors": [5, 10], "weights": ["uniform", "distance"]}),
     "Decision Tree": (DecisionTreeClassifier(), {"max_depth": [5, 10], "min_samples_split": [2, 5]}),
     "Logistic Regression": (LogisticRegression(tol=1e-3, max_iter=1000), {"solver": ["sag", "saga"], "C": [1.0, 10.0]}),
-    "Neural Network": (MLPClassifier(max_iter=200, random_state=42, tol=0.001), {'hidden_layer_sizes': [(10,), (50,)], 'activation': ['tanh', 'relu'],})
+    "Neural Network": (MLPClassifier(max_iter=300, random_state=42, tol=0.001), {'hidden_layer_sizes': [(10,), (50,)], 'activation': ['tanh', 'relu'],})
 }
 
 def find_best_hyperparameters(classifier, param_grid, x_train, y_train, cv=3):

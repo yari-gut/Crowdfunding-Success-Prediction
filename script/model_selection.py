@@ -49,10 +49,10 @@ def select_features(trainDF, testDF, dataset):
     # Set delta and gamma thresholds based on the dataset
     if dataset == "kickstarter":
         delta = 0.7
-        gamma = 0.1
+        gamma = 0.05
     elif dataset == "indiegogo":
-        delta = 0.85  
-        gamma = 0.15 
+        delta = 0.8  
+        gamma = 0.1
     else:
         raise ValueError("Invalid dataset name. Please specify either 'kickstarter' or 'indiegogo'.")
 
