@@ -1,0 +1,5 @@
+/script/__pycache__/
+/data/preprocessed/
+/data/selected/
+/script/indiegogo_best_parameters.json
+/script/kickstarter_best_parameters.json
