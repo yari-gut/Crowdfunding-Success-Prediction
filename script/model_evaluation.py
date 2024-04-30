@@ -116,6 +116,7 @@ def plot_roc(dataset, roc_df):
         subset = roc_df[roc_df['model'] == model]
         plt.plot(subset['fpr'], subset['tpr'], label=model)
     
+    plt.plot([0, 1], [0, 1], 'k--', label='Random Guess')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title(f'ROC Curve by Model ({dataset})')
