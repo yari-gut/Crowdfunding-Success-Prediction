@@ -29,12 +29,13 @@ def evaluate_model(clf, model, x_train, y_train, x_test, y_test):
     timeElapsed = time.time() - start
 
     # Evaluate on test set
-    yHat = clf.predict(x_test)
-    fpr, tpr, _ = roc_curve(y_test, clf.predict_proba(x_test)[:, 1])
-    precision, recall, _ = precision_recall_curve(y_test, clf.predict_proba(x_test)[:, 1])
+    y_prob = clf.predict_proba(x_test)[:, 1]
+    y_pred = (y_prob >= 0.3).astype(int)
+    fpr, tpr, _ = roc_curve(y_test, y_prob)
+    precision, recall, _ = precision_recall_curve(y_test, y_prob)
     auc_score = auc(fpr, tpr)
     auprc = auc(recall, precision)
-    f1 = f1_score(y_test, yHat)
+    f1 = f1_score(y_test, y_pred)
 
     # Create result/roc dictionaries
     result_dict = {"model": model, "AUC": auc_score, "AUPRC": auprc, "F1": f1, "Time": timeElapsed}
