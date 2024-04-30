@@ -122,8 +122,6 @@ def plot_roc(dataset, roc_df):
     plt.legend(loc="lower right")
     plt.show()
 
-    return
-
 if __name__ == "__main__":
     # Evaluate Indiegogo
     indiegogo_results, indiegogo_roc = eval_models("indiegogo")

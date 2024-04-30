@@ -66,7 +66,7 @@ def preprocess_indiegogo(indiegogo_df):
     # Drop features that are not meaningful or redundant
     cleaned_df = cleaned_df.drop(labels=["project_id", "url", "amount_raised", "funded_percent", "category", "tperiod"], axis=1)
 
-    # Create columns "launched" and "deadline" to condense columns related to date and time
+    # Create columns "launched" and "end" to condense columns related to date and time
     cleaned_df["launched"] = pd.to_datetime(cleaned_df['date_launch'] + " " + cleaned_df['time_launch']).astype('int64') // 10**9
     cleaned_df["end"] = pd.to_datetime(cleaned_df['date_end'] + " " + cleaned_df['time_end']).astype('int64') // 10**9
     condensed_features = ["year_launch", "month_launch", "day_launch", "time_launch", "year_end", "month_end", "day_end", "time_end", "date_launch", "date_end",
