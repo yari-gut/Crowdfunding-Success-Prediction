@@ -57,7 +57,7 @@ The `model_tuning.py` script tunes hyperparameters for various machine learning 
 
 The script enables efficient optimization of machine learning classifiers by systematically searching for the best hyperparameters. It facilitates the selection of optimal models for predicting crowdfunding campaign success, enhancing the overall effectiveness of the project's predictive analytics.
 
-# Model Evaluation
+## Model Evaluation
 
 The `model_evaluation.py` script evaluates tuned machine learning models on the Kickstarter and Indiegogo crowdfunding datasets. It includes the following functions:
 
